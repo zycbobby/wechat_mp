@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "node-wechat": "^0.1.0",
-    "q": "^1.3.0",
-    "wechat-oauth": "^1.0.1"
+    "q": "^1.3.0"
   }
 }
