@@ -1,6 +1,11 @@
 'use strict';
 var config = require('./config/development');
 var util = require('./util');
+var elasticsearch = require('elasticsearch');
+var client = new elasticsearch.Client({
+  host: config.elasticsearch.host,
+  log: 'trace'
+});
 
 var promise = util.getAccessToken(config.appId, config.appSecret);
 promise.then(function(accessToken){
@@ -27,15 +32,27 @@ http.createServer(function (req, res) {
         console.log(data.FromUserName);
         console.log(data.CreateTime);
         console.log(data.MsgType);
+
+      client.search({
+        index: config.elasticsearch.indexName,
+        body: {
+          query: {
+            match: {
+              title: data.Content
+            }
+          }
+        }
+      }, function (error, response) {
         var msg = {
-            FromUserName : data.ToUserName,
-            ToUserName : data.FromUserName,
-            //MsgType : "text",
-            Content : "这是文本回复"
-            //FuncFlag : 0
+          FromUserName : data.ToUserName,
+          ToUserName : data.FromUserName,
+          //MsgType : "text",
+          Content : "这是文本回复"
+          //FuncFlag : 0
         }
         //回复信息
         wechat.send(msg);
+      });
     });
 
     //监听图片信息
