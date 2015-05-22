@@ -4,7 +4,7 @@
 # Config elastic search
 
 ## default option
-Put the [Sample config file](es/etc.defaul/elasticsearch) in to /etc/default/elasticsearch
+Put the [Sample config file](es/etc.default.elasticsearch) in to /etc/default/elasticsearch
 Config it for less memory usage
 
 ## Using less nodes and use ik-analyser for tokenizer
