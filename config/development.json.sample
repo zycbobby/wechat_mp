@@ -1,0 +1,11 @@
+{
+  "appId" : "",
+  "appSecret" : "",
+  "port" : 9001,
+  "token": "mvpisstevecurry",
+
+  "elasticsearch" : {
+    "host" : "misscatandzuozuo.info:19200",
+    "indexName" : "mongoindex"
+  }
+}
