@@ -43,15 +43,28 @@ http.createServer(function (req, res) {
           }
         }
       }, function (error, response) {
-        var msg = {
-          FromUserName : data.ToUserName,
-          ToUserName : data.FromUserName,
-          //MsgType : "text",
-          Content : "这是文本回复"
-          //FuncFlag : 0
-        }
-        //回复信息
-        wechat.send(msg);
+          if (error) {
+              return;
+          }
+
+          var articles = [];
+          var hits = response.hits;
+          for (var i = 0; i < 5 && i < hits; i++ ) {
+              var thing = hits[i];
+              articles.push({
+                  Title : thing.title.substr(0, 10),
+                  Description : thing.title,
+                  PicUrl : (thing.info.images && thing.info.images.length > 0)? thing.info.images[0].url:'',
+                  Url : thing.source
+              })
+          }
+          var msg = {
+              FromUserName : data.ToUserName,
+              ToUserName : data.FromUserName,
+              //MsgType : "news",
+              Articles : articles
+          };
+          wechat.send(msg);
       });
     });
 
