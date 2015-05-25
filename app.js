@@ -38,9 +38,9 @@ http.createServer(function (req, res) {
           }
 
           var articles = [];
-          var hits = response.hits;
+          var hits = response.hits.hits;
           for (var i = 0; i < 5 && i < hits.length; i++ ) {
-              var thing = hits[i];
+              var thing = hits[i]._source;
               articles.push({
                   Title : thing.title.substr(0, 10),
                   Description : thing.title,
@@ -56,7 +56,7 @@ http.createServer(function (req, res) {
           if (articles.length > 0) {
               msg.Articles = articles;
           } else {
-              msg.Content = "无法找到";
+              msg.Content = "Not found";
           }
           wechat.send(msg);
       });
