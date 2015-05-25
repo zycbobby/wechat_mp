@@ -3,8 +3,8 @@ var config = require('./config/development');
 var util = require('./util');
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
-  host: config.elasticsearch.host,
-  log: 'trace'
+    host: config.elasticsearch.host,
+    log: 'trace'
 });
 
 var http = require('http'),
@@ -23,43 +23,65 @@ http.createServer(function (req, res) {
         console.log(data.CreateTime);
         console.log(data.MsgType);
 
-      client.search({
-        index: config.elasticsearch.indexName,
-        body: {
-          query: {
-            match: {
-              title: data.Content
+        client.search({
+            index: config.elasticsearch.indexName,
+            body: {
+                "query": {
+                    "function_score": {
+                        "score_mode": "first",
+                        "query": {
+                            "match": {
+                                "title": data.Content
+                            }
+                        },
+
+                        "functions": [
+                            {
+                                "filter": {
+                                    "exists": {
+                                        "field": "updatedAt"
+                                    }
+                                },
+                                "gauss": {
+                                    "updatedAt": {
+                                        "scale": "1d",
+                                        "offset": "0.2d",
+                                        "decay": 0.5
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
             }
-          }
-        }
-      }, function (error, response) {
-          if (error) {
-              return;
-          }
+        }, function (error, response) {
+            if (error) {
+                return;
+            }
 
-          var articles = [];
-          var hits = response.hits.hits;
-          for (var i = 0; i < 5 && i < hits.length; i++ ) {
-              var thing = hits[i]._source;
-              articles.push({
-                  Title : thing.title.substr(0, 20),
-                  Description : thing.title,
-                  PicUrl : (thing.info.images && thing.info.images.length > 0)? thing.info.images[0].url:'',
-                  Url : thing.source
-              })
-          }
-          var msg = {
-              FromUserName : data.ToUserName,
-              ToUserName : data.FromUserName
-          };
+            var articles = [];
+            var hits = response.hits.hits;
+            for (var i = 0; i < 5 && i < hits.length; i++) {
+                var thing = hits[i]._source;
+                articles.push({
+                    Title: thing.title.substr(0, 20),
+                    Description: thing.title,
+                    PicUrl: (thing.info.images && thing.info.images.length > 0) ? thing.info.images[0].url : '',
+                    Url: thing.source
+                })
+            }
+            var msg = {
+                FromUserName: data.ToUserName,
+                ToUserName: data.FromUserName
+            };
 
-          if (articles.length > 0) {
-              msg.Articles = articles;
-          } else {
-              msg.Content = "Not found";
-          }
-          wechat.send(msg);
-      });
+            if (articles.length > 0) {
+                msg.Articles = articles;
+            } else {
+                msg.Content = "Not found";
+            }
+            wechat.send(msg);
+        });
     });
 
     //监听图片信息
