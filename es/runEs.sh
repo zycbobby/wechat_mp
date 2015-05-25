@@ -1,0 +1,1 @@
+docker run -p 19200:9200 -v /mnt/ext/esdata:/usr/share/elasticsearch/data -ti es:wechat bash
