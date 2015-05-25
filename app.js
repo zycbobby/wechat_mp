@@ -7,16 +7,6 @@ var client = new elasticsearch.Client({
   log: 'trace'
 });
 
-var promise = util.getAccessToken(config.appId, config.appSecret);
-promise.then(function(accessToken){
-    console.log(accessToken);
-    // the program can start now
-}).then(undefined, function() {
-    console.log('fail');
-});
-
-
-
 var http = require('http'),
     wechat = require('node-wechat')(config.token);
 
