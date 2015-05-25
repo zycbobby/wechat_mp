@@ -60,10 +60,14 @@ http.createServer(function (req, res) {
           }
           var msg = {
               FromUserName : data.ToUserName,
-              ToUserName : data.FromUserName,
-              //MsgType : "news",
-              Articles : articles
+              ToUserName : data.FromUserName
           };
+
+          if (articles.length > 0) {
+              msg.Articles = articles;
+          } else {
+              msg.Content = "无法找到";
+          }
           wechat.send(msg);
       });
     });
