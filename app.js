@@ -39,7 +39,7 @@ http.createServer(function (req, res) {
 
           var articles = [];
           var hits = response.hits;
-          for (var i = 0; i < 5 && i < hits; i++ ) {
+          for (var i = 0; i < 5 && i < hits.length; i++ ) {
               var thing = hits[i];
               articles.push({
                   Title : thing.title.substr(0, 10),
