@@ -42,7 +42,7 @@ http.createServer(function (req, res) {
           for (var i = 0; i < 5 && i < hits.length; i++ ) {
               var thing = hits[i]._source;
               articles.push({
-                  Title : thing.title.substr(0, 10),
+                  Title : thing.title.substr(0, 20),
                   Description : thing.title,
                   PicUrl : (thing.info.images && thing.info.images.length > 0)? thing.info.images[0].url:'',
                   Url : thing.source
