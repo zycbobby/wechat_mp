@@ -45,3 +45,6 @@ docker run -p 19200:9200 -v /mnt/ext/esdata:/usr/share/elasticsearch/data -ti es
 
 Like [here](https://github.com/zycbobby/easy_download/blob/master/elasticsearch/README.md#create-index)
 
+
+# NODEJS profiling
+[Profile](http://blog.eood.cn/node-js_gc)

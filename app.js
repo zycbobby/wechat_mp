@@ -1,6 +1,7 @@
 'use strict';
 var config = require('./config/development');
 var util = require('./util');
+var heapdump = require('heapdump');
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
     host: config.elasticsearch.host,

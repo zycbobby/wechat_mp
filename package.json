@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "elasticsearch": "^4.1.0",
+    "heapdump": "^0.3.5",
     "node-wechat": "^0.1.0",
     "q": "^1.3.0"
   }
