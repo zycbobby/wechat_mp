@@ -48,3 +48,8 @@ Like [here](https://github.com/zycbobby/easy_download/blob/master/elasticsearch/
 
 # NODEJS profiling
 [Profile](http://blog.eood.cn/node-js_gc)
+
+Need to use heapdump
+
+# NodeJS production
+Considering strongloop
