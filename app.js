@@ -5,7 +5,7 @@ var heapdump = require('heapdump');
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
     host: config.elasticsearch.host,
-    log: 'trace'
+    log: 'error'
 });
 
 var http = require('http'),
@@ -65,7 +65,7 @@ http.createServer(function (req, res) {
             for (var i = 0; i < 5 && i < hits.length; i++) {
                 var thing = hits[i]._source;
                 articles.push({
-                    Title: thing.title.substr(0, 20),
+                    Title: thing.title,
                     Description: thing.title,
                     PicUrl: (thing.info.images && thing.info.images.length > 0) ? thing.info.images[0].url : '',
                     Url: thing.source
