@@ -64,12 +64,15 @@ http.createServer(function (req, res) {
             var hits = response.hits.hits;
             for (var i = 0; i < 5 && i < hits.length; i++) {
                 var thing = hits[i]._source;
-                articles.push({
+                var score = hits[i]._score;
+                if (score > 5) {
+                  articles.push({
                     Title: thing.title,
                     Description: thing.title,
                     PicUrl: (thing.info.images && thing.info.images.length > 0) ? thing.info.images[0].url : '',
                     Url: thing.source
-                })
+                  });
+                }
             }
             var msg = {
                 FromUserName: data.ToUserName,
@@ -79,7 +82,7 @@ http.createServer(function (req, res) {
             if (articles.length > 0) {
                 msg.Articles = articles;
             } else {
-                msg.Content = "Not found";
+                msg.Content = "科里哥没找到...";
             }
             wechat.send(msg);
         });
