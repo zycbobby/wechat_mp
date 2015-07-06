@@ -65,7 +65,7 @@ http.createServer(function (req, res) {
             for (var i = 0; i < 5 && i < hits.length; i++) {
                 var thing = hits[i]._source;
                 var score = hits[i]._score;
-                if (score > 5) {
+                if (score > 4) {
                   articles.push({
                     Title: thing.title,
                     Description: thing.title,
@@ -82,7 +82,7 @@ http.createServer(function (req, res) {
             if (articles.length > 0) {
                 msg.Articles = articles;
             } else {
-                msg.Content = "科里哥没找到...";
+                msg.Content = "科里哥没找到...;不知道怎么用？试试'热水壶'或者是一切你想得到优惠的东西";
             }
             wechat.send(msg);
         });
